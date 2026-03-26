@@ -1,0 +1,39 @@
+@view-transition {
+  navigation: auto;
+}
+
+/* Index page: unique name per article card */
+.article-card[data-article="1"] .article-thumb {
+  view-transition-name: hero-1;
+}
+.article-card[data-article="1"] .article-card-title {
+  view-transition-name: title-1;
+}
+
+.article-card[data-article="2"] .article-thumb {
+  view-transition-name: hero-2;
+}
+.article-card[data-article="2"] .article-card-title {
+  view-transition-name: title-2;
+}
+
+/* Detail pages: matching names */
+.article-hero-1 {
+  view-transition-name: hero-1;
+}
+.article-title-1 {
+  view-transition-name: title-1;
+}
+
+.article-hero-2 {
+  view-transition-name: hero-2;
+}
+.article-title-2 {
+  view-transition-name: title-2;
+}
+
+/* Smooth timing for morphing elements */
+::view-transition-group(*) {
+  animation-duration: 0.35s;
+  animation-timing-function: ease;
+}

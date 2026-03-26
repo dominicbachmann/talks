@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    h3 {
+      font-size: 14px; color: #8b949e; font-weight: 500;
+    }
+    .demo-area {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      gap: 48px; border: 1px solid #30363d; border-radius: 6px;
+      background: #161b22; position: relative; overflow: clip;
+    }
+
+    .trigger {
+      padding: 12px 24px; border-radius: 6px; border: 1px solid #3fb950;
+      background: #238636; color: #fff; font-size: 15px; cursor: pointer;
+      anchor-name: var(--anchor);
+    }
+    .trigger:hover { background: #2ea043; }
+
+    .btn-save { --anchor: --save; }
+    .btn-edit { --anchor: --edit; }
+    .btn-delete { --anchor: --delete; }
+
+    .tooltip {
+      position: absolute;
+      padding: 8px 14px; border-radius: 6px; background: #30363d;
+      color: #e6edf3; font-size: 13px; white-space: nowrap;
+      pointer-events: none; opacity: 0; transition: opacity 0.15s;
+      border: 1px solid #484f58;
+    }
+    .tooltip::before {
+      content: ''; position: absolute; top: -6px; left: 50%; translate: -50%;
+      border: 6px solid transparent; border-top: none;
+      border-bottom-color: #484f58;
+    }
+
+    .tip-save {
+      position-anchor: --save;
+      top: anchor(bottom); left: anchor(center);
+      translate: -50% 8px;
+    }
+    .tip-edit {
+      position-anchor: --edit;
+      top: anchor(bottom); left: anchor(center);
+      translate: -50% 8px;
+    }
+    .tip-delete {
+      position-anchor: --delete;
+      top: anchor(bottom); left: anchor(center);
+      translate: -50% 8px;
+    }
+
+    .btn-save:hover ~ .tip-save,
+    .btn-edit:hover ~ .tip-edit,
+    .btn-delete:hover ~ .tip-delete {
+      opacity: 1;
+    }
+
+    .info {
+      text-align: center; font-size: 13px; color: #8b949e;
+    }
+    .info code {
+      background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Hover over the buttons — tooltips are positioned with pure CSS</h3>
+  <div class="demo-area">
+    <button class="trigger btn-save">Save</button>
+    <button class="trigger btn-edit">Edit</button>
+    <button class="trigger btn-delete">Delete</button>
+
+    <div class="tooltip tip-save">Save your changes (Ctrl+S)</div>
+    <div class="tooltip tip-edit">Edit this document</div>
+    <div class="tooltip tip-delete">Permanently delete this item</div>
+  </div>
+  <p class="info">
+    Each tooltip uses <code>position-anchor</code> + <code>anchor(bottom)</code> / <code>anchor(center)</code> — zero JavaScript
+  </p>
+</body>
+</html>

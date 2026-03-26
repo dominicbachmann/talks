@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    h3 {
+      font-size: 14px; color: #8b949e; font-weight: 500;
+    }
+    .demo-area {
+      flex: 1; border: 1px solid #30363d; border-radius: 6px;
+      background: #161b22; position: relative; overflow: hidden;
+    }
+    .scroll-container {
+      height: 100%; overflow-y: auto; padding: 32px;
+    }
+
+    /* The progress bar — pure CSS */
+    @keyframes fill-progress {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    .progress-bar {
+      position: sticky;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: #3fb950;
+      transform-origin: left;
+      animation: fill-progress linear;
+      animation-timeline: scroll(nearest);
+      z-index: 10;
+    }
+
+    .content h2 {
+      font-size: 20px; color: #e6edf3; margin: 32px 0 12px;
+    }
+    .content h2:first-child { margin-top: 0; }
+    .content p {
+      font-size: 15px; line-height: 1.7; color: #8b949e; margin-bottom: 16px;
+      max-width: 580px;
+    }
+    .content .highlight {
+      color: #c9d1d9; background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-family: monospace; font-size: 13px;
+    }
+
+    .info {
+      text-align: center; font-size: 13px; color: #8b949e;
+    }
+    .info code {
+      background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Scroll the content — watch the green progress bar at the top</h3>
+  <div class="demo-area">
+    <div class="scroll-container">
+      <div class="progress-bar"></div>
+      <div class="content">
+        <h2>Chapter 1: The Scroll Event Era</h2>
+        <p>For years, web developers have relied on JavaScript scroll event listeners to create scroll-linked effects. Every progress bar, every parallax background, every fade-in-on-scroll animation required imperative code running on the main thread.</p>
+        <p>The <span class="highlight">scroll</span> event fires at high frequency — potentially 60+ times per second. Each handler that reads layout properties like <span class="highlight">scrollTop</span> or <span class="highlight">getBoundingClientRect()</span> forces the browser to recalculate layout, causing performance bottlenecks.</p>
+
+        <h2>Chapter 2: The IntersectionObserver Improvement</h2>
+        <p>IntersectionObserver was a major step forward for detecting when elements enter or leave the viewport. It moved the intersection calculation off the main thread and provided an efficient, callback-based API.</p>
+        <p>But IntersectionObserver is binary — an element is either intersecting or it's not. You can use thresholds to get multiple callbacks, but you can't smoothly tie an animation to the intersection ratio without falling back to polling or scroll listeners.</p>
+
+        <h2>Chapter 3: The Library Landscape</h2>
+        <p>Libraries like GSAP ScrollTrigger, AOS (Animate on Scroll), Locomotive Scroll, and Lenis emerged to solve the performance and developer experience problems. These libraries provide excellent APIs and handle debouncing, RAF scheduling, and cross-browser quirks.</p>
+        <p>But they add bundle size, have learning curves, and fundamentally still run on the main thread. The core limitation isn't the library — it's that JavaScript scroll handlers can never run on the compositor thread.</p>
+
+        <h2>Chapter 4: The CSS Solution</h2>
+        <p>Scroll-driven animations move this entire concern into the browser's rendering pipeline. By replacing <span class="highlight">animation-duration</span> with <span class="highlight">animation-timeline: scroll()</span>, the browser ties animation progress directly to scroll position.</p>
+        <p>This runs on the compositor thread — the same thread that handles CSS transforms and opacity changes. It's inherently smooth because it doesn't compete with JavaScript execution for CPU time.</p>
+
+        <h2>Chapter 5: The Future</h2>
+        <p>As browser support expands to Firefox and more properties become animatable via scroll timelines, we'll see this pattern replace a large portion of scroll-related JavaScript on the web.</p>
+        <p>The progress bar you're watching right now is a <span class="highlight">@keyframes</span> animation with <span class="highlight">animation-timeline: scroll()</span>. No JavaScript is listening to scroll events. No requestAnimationFrame loop. Pure CSS.</p>
+      </div>
+    </div>
+  </div>
+  <p class="info">
+    The green bar uses <code>animation-timeline: scroll()</code> — zero JavaScript involved
+  </p>
+</body>
+</html>

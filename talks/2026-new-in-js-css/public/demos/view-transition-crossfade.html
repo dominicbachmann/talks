@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    .controls { display: flex; gap: 8px; }
+    button {
+      padding: 8px 16px; border-radius: 6px; border: 1px solid #3fb950;
+      background: #238636; color: #fff; font-size: 14px; cursor: pointer;
+    }
+    button:hover { background: #2ea043; }
+    button.secondary {
+      background: #21262d; border-color: #30363d; color: #c9d1d9;
+    }
+    button.secondary:hover { background: #30363d; }
+    .content {
+      flex: 1; padding: 16px; border-radius: 6px; border: 1px solid #30363d;
+      background: #161b22; overflow: auto;
+    }
+    .product-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    }
+    .product-card {
+      padding: 16px; border-radius: 6px; background: #21262d;
+      border: 1px solid #30363d; text-align: center;
+    }
+    .product-card .emoji { font-size: 32px; margin-bottom: 8px; }
+    .product-card .name { font-weight: 600; margin-bottom: 4px; }
+    .product-card .price { color: #3fb950; font-size: 14px; }
+    .detail {
+      display: flex; gap: 24px; align-items: flex-start;
+    }
+    .detail .emoji { font-size: 80px; }
+    .detail-info { flex: 1; }
+    .detail-info h2 { margin-bottom: 8px; font-size: 22px; }
+    .detail-info .price { color: #3fb950; font-size: 18px; margin-bottom: 12px; }
+    .detail-info p { color: #8b949e; line-height: 1.6; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <button id="btn-transition">With View Transition</button>
+    <button id="btn-instant" class="secondary">Without Transition</button>
+  </div>
+  <div class="content" id="content"></div>
+
+  <script>
+    const products = [
+      { emoji: '🎧', name: 'Headphones', price: '$149', desc: 'Wireless over-ear headphones with active noise cancellation, 30-hour battery life, and premium comfort padding.' },
+      { emoji: '⌨️', name: 'Keyboard', price: '$89', desc: 'Mechanical keyboard with hot-swappable switches, RGB backlighting, and a compact 75% layout.' },
+      { emoji: '🖱️', name: 'Mouse', price: '$59', desc: 'Ergonomic wireless mouse with 20K DPI sensor, 70-hour battery, and USB-C fast charging.' },
+      { emoji: '🎒', name: 'Backpack', price: '$79', desc: 'Water-resistant laptop backpack with padded compartments, USB charging port, and hidden pockets.' },
+      { emoji: '📱', name: 'Phone Stand', price: '$29', desc: 'Adjustable aluminum stand with anti-slip base. Works with any phone or small tablet.' },
+      { emoji: '💡', name: 'Desk Lamp', price: '$45', desc: 'LED desk lamp with 5 color temperatures, auto-dimming sensor, and wireless charging base.' },
+    ];
+
+    let currentView = 'list';
+    let selectedProduct = null;
+
+    function renderList() {
+      currentView = 'list';
+      const el = document.getElementById('content');
+      el.innerHTML = '<div class="product-grid">' + products.map((p, i) =>
+        `<div class="product-card" data-index="${i}" style="cursor:pointer">
+          <div class="emoji">${p.emoji}</div>
+          <div class="name">${p.name}</div>
+          <div class="price">${p.price}</div>
+        </div>`
+      ).join('') + '</div>';
+
+      el.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', () => {
+          selectedProduct = parseInt(card.dataset.index);
+          swap(true);
+        });
+      });
+    }
+
+    function renderDetail() {
+      currentView = 'detail';
+      const p = products[selectedProduct];
+      document.getElementById('content').innerHTML =
+        `<div class="detail">
+          <div class="emoji">${p.emoji}</div>
+          <div class="detail-info">
+            <h2>${p.name}</h2>
+            <div class="price">${p.price}</div>
+            <p>${p.desc}</p>
+          </div>
+        </div>`;
+    }
+
+    function swap(useTransition) {
+      const update = () => {
+        if (currentView === 'list') renderDetail();
+        else renderList();
+      };
+
+      if (useTransition && document.startViewTransition) {
+        document.startViewTransition(update);
+      } else {
+        update();
+      }
+    }
+
+    document.getElementById('btn-transition').addEventListener('click', () => swap(true));
+    document.getElementById('btn-instant').addEventListener('click', () => swap(false));
+
+    renderList();
+  </script>
+</body>
+</html>

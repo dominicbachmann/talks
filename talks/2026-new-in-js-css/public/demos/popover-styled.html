@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    h3 {
+      font-size: 14px; color: #8b949e; font-weight: 500;
+    }
+    .demo-area {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 24px;
+      border: 1px solid #30363d; border-radius: 6px;
+      background: #161b22; position: relative;
+    }
+
+    .trigger {
+      padding: 12px 24px; border-radius: 6px; border: 1px solid #3fb950;
+      background: #238636; color: #fff; font-size: 15px; cursor: pointer;
+    }
+    .trigger:hover { background: #2ea043; }
+
+    [popover] {
+      margin: auto;
+      padding: 24px 32px; border-radius: 12px;
+      background: #21262d; border: 1px solid #30363d;
+      color: #c9d1d9; font-size: 15px;
+      max-width: 360px; text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+      /* Final (visible) state */
+      opacity: 1;
+      transform: translateY(0) scale(1);
+
+      transition: opacity 0.3s ease,
+                  transform 0.3s ease,
+                  display 0.3s ease allow-discrete,
+                  overlay 0.3s ease allow-discrete;
+    }
+
+    /* Entry animation */
+    @starting-style {
+      [popover]:popover-open {
+        opacity: 0;
+        transform: translateY(12px) scale(0.95);
+      }
+    }
+
+    /* Exit animation */
+    [popover]:not(:popover-open) {
+      opacity: 0;
+      transform: translateY(12px) scale(0.95);
+    }
+
+    [popover]::backdrop {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      opacity: 1;
+      transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+    }
+
+    @starting-style {
+      [popover]:popover-open::backdrop {
+        opacity: 0;
+      }
+    }
+
+    [popover]:not(:popover-open)::backdrop {
+      opacity: 0;
+    }
+
+    [popover] h4 {
+      margin-bottom: 10px; color: "#58a6ff"; font-size: 18px;
+    }
+    [popover] h4 span {
+      font-size: 24px; display: block; margin-bottom: 4px;
+    }
+
+    .actions {
+      display: flex; gap: 10px; margin-top: 16px; justify-content: center;
+    }
+    .actions button {
+      padding: 8px 18px; border-radius: 6px; font-size: 14px; cursor: pointer;
+      border: none;
+    }
+    .btn-dismiss {
+      background: #30363d; color: #c9d1d9;
+    }
+    .btn-dismiss:hover { background: #3d444d; }
+    .btn-confirm {
+      background: #238636; color: #fff;
+    }
+    .btn-confirm:hover { background: #2ea043; }
+
+    .info {
+      text-align: center; font-size: 13px; color: #8b949e;
+    }
+    .info code {
+      background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Styled popover with @starting-style animations and blurred backdrop</h3>
+  <div class="demo-area">
+    <button class="trigger" popovertarget="styled-popover">Show notification</button>
+    <div id="styled-popover" popover>
+      <h4><span>📬</span>New messages</h4>
+      <p>You have 3 unread messages from your team. Would you like to view them now?</p>
+      <div class="actions">
+        <button class="btn-dismiss" popovertarget="styled-popover" popovertargetaction="hide">Dismiss</button>
+        <button class="btn-confirm" popovertarget="styled-popover" popovertargetaction="hide">View messages</button>
+      </div>
+    </div>
+  </div>
+  <p class="info">
+    <code>@starting-style</code> for entry animation,
+    <code>::backdrop</code> with <code>backdrop-filter: blur(4px)</code>,
+    and <code>popovertargetaction="hide"</code> on the dismiss buttons.
+  </p>
+</body>
+</html>

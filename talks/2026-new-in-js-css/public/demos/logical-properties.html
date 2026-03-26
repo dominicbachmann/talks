@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 20px; display: flex; flex-direction: column; gap: 14px; height: 100vh;
+    }
+
+    .controls {
+      display: flex; gap: 12px; align-items: center;
+    }
+    .controls label {
+      font-size: 13px; color: #8b949e; display: flex; align-items: center; gap: 6px; cursor: pointer;
+    }
+    .controls input[type="checkbox"] {
+      accent-color: #58a6ff; width: 16px; height: 16px;
+    }
+    .toggle-btn {
+      padding: 6px 16px; border-radius: 6px; border: 1px solid #30363d;
+      background: #21262d; color: #c9d1d9; font-size: 13px; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .toggle-btn:hover { background: #30363d; }
+    .toggle-btn.active { background: #238636; border-color: #3fb950; color: #fff; }
+
+    .demo-area {
+      flex: 1; display: flex; gap: 24px; justify-content: center; align-items: flex-start;
+      padding: 24px;
+      border: 1px solid #30363d; border-radius: 6px; background: #161b22;
+      overflow: auto;
+    }
+
+    .card-column {
+      flex: 0 0 340px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .card-column h4 {
+      font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    /* ===== Physical card ===== */
+    .card-physical {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+      padding-left: 16px; padding-right: 16px;
+      padding-top: 14px; padding-bottom: 14px;
+      border-left: 3px solid #f85149;
+      position: relative;
+    }
+    .card-physical .badge {
+      position: absolute; top: 8px; right: 8px;
+      background: #f8514933; color: #f85149;
+      padding: 2px 8px; border-radius: 12px; font-size: 11px;
+    }
+    .card-physical .icon {
+      float: left; margin-right: 12px;
+      width: 36px; height: 36px; border-radius: 50%; background: #21262d;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+    }
+    .card-physical .title { font-weight: 600; font-size: 14px; }
+    .card-physical .desc { font-size: 12px; color: #8b949e; margin-top: 2px; }
+    .card-physical .tag { text-align: left; font-size: 11px; color: #f85149; margin-top: 8px; clear: both; }
+
+    /* ===== Logical card ===== */
+    .card-logical {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+      padding-inline: 16px;
+      padding-block: 14px;
+      border-inline-start: 3px solid #3fb950;
+      position: relative;
+    }
+    .card-logical .badge {
+      position: absolute; inset-block-start: 8px; inset-inline-end: 8px;
+      background: #3fb95033; color: #3fb950;
+      padding: 2px 8px; border-radius: 12px; font-size: 11px;
+    }
+    .card-logical .icon {
+      float: inline-start; margin-inline-end: 12px;
+      width: 36px; height: 36px; border-radius: 50%; background: #21262d;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+    }
+    .card-logical .title { font-weight: 600; font-size: 14px; }
+    .card-logical .desc { font-size: 12px; color: #8b949e; margin-top: 2px; }
+    .card-logical .tag { text-align: start; font-size: 11px; color: #3fb950; margin-top: 8px; clear: both; }
+
+    .code-label {
+      font-family: monospace; font-size: 11px; padding: 3px 8px;
+      border-radius: 4px; margin-top: 6px; display: inline-block;
+    }
+    .code-label.physical { background: #f8514922; color: #f85149; }
+    .code-label.logical { background: #3fb95022; color: #3fb950; }
+
+    .info {
+      text-align: center; font-size: 12px; color: #8b949e;
+    }
+    .info code { background: #21262d; padding: 2px 6px; border-radius: 3px; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <button class="toggle-btn" onclick="toggleDir()" id="dir-btn">LTR</button>
+    <span style="font-size: 13px; color: #8b949e;">Toggle direction to see the difference</span>
+  </div>
+
+  <div class="demo-area" id="demo">
+    <div class="card-column">
+      <h4>Physical properties <span class="code-label physical">border-left, float: left, right: 8px</span></h4>
+      <div class="card-physical">
+        <span class="badge">New</span>
+        <div class="icon">A</div>
+        <div>
+          <div class="title">Article title</div>
+          <div class="desc">A short description of this card's content.</div>
+        </div>
+        <div class="tag">border-left · float: left · right: 8px</div>
+      </div>
+      <div class="card-physical">
+        <span class="badge">Draft</span>
+        <div class="icon">B</div>
+        <div>
+          <div class="title">Second article</div>
+          <div class="desc">Another card showing the same pattern.</div>
+        </div>
+        <div class="tag">text-align: left · margin-right: 12px</div>
+      </div>
+    </div>
+
+    <div class="card-column">
+      <h4>Logical properties <span class="code-label logical">border-inline-start, float: inline-start, inset-inline-end</span></h4>
+      <div class="card-logical">
+        <span class="badge">New</span>
+        <div class="icon">A</div>
+        <div>
+          <div class="title">Article title</div>
+          <div class="desc">A short description of this card's content.</div>
+        </div>
+        <div class="tag">border-inline-start · float: inline-start · inset-inline-end</div>
+      </div>
+      <div class="card-logical">
+        <span class="badge">Draft</span>
+        <div class="icon">B</div>
+        <div>
+          <div class="title">Second article</div>
+          <div class="desc">Another card showing the same pattern.</div>
+        </div>
+        <div class="tag">text-align: start · margin-inline-end: 12px</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="info">
+    Click <strong>LTR/RTL</strong> to toggle — the <code style="color: #f85149">physical</code> card breaks, the <code style="color: #3fb950">logical</code> card adapts automatically
+  </p>
+
+  <script>
+    let isRtl = false;
+    function toggleDir() {
+      isRtl = !isRtl;
+      document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
+      const btn = document.getElementById('dir-btn');
+      btn.textContent = isRtl ? 'RTL' : 'LTR';
+      btn.classList.toggle('active', isRtl);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    .controls { display: flex; gap: 8px; }
+    input {
+      flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #30363d;
+      background: #161b22; color: #c9d1d9; font-family: monospace; font-size: 14px;
+    }
+    button {
+      padding: 8px 16px; border-radius: 6px; border: 1px solid #3fb950;
+      background: #238636; color: #fff; font-size: 14px; cursor: pointer;
+    }
+    button:hover { background: #2ea043; }
+    .output {
+      flex: 1; padding: 16px; border-radius: 6px; border: 1px solid #30363d;
+      background: #161b22; overflow: auto;
+    }
+    .output .comment {
+      padding: 8px 12px; margin-bottom: 8px; border-radius: 4px;
+      background: #21262d; border-left: 3px solid #58a6ff;
+    }
+    .alert-banner {
+      display: none; padding: 12px 16px; border-radius: 6px;
+      background: #b91c1c; color: #fff; font-weight: bold; text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <input id="comment" type="text"
+      value='<img src=x onerror="steal()">'>
+    <button id="btn">Render Comment</button>
+  </div>
+  <div class="alert-banner" id="alert">
+    Script executed! An attacker could now steal cookies, redirect the page, or inject a keylogger.
+  </div>
+  <div class="output" id="output"></div>
+  <script>
+    window.steal = function() {
+      document.getElementById('alert').style.display = 'block';
+    };
+    document.getElementById('btn').addEventListener('click', function() {
+      var input = document.getElementById('comment').value;
+      var output = document.getElementById('output');
+      output.innerHTML += '<div class="comment">' + input + '</div>';
+    });
+  </script>
+</body>
+</html>

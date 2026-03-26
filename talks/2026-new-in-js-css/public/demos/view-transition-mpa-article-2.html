@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll-Driven Animations Without JavaScript — DevBlog</title>
+  <link rel="stylesheet" href="view-transition-mpa-styles.css">
+  <link rel="stylesheet" href="view-transition-mpa-transition.css" id="transition-css">
+</head>
+<body>
+  <nav class="nav">
+    <span class="nav-title">DevBlog</span>
+    <label class="nav-toggle">
+      <input type="checkbox" id="vt-toggle" checked>
+      View Transitions enabled
+    </label>
+  </nav>
+
+  <div class="article-detail">
+    <a href="view-transition-mpa-index.html" class="back-link">&#8592; All articles</a>
+
+    <div class="article-hero hero-2 article-hero-2"></div>
+    <h1 class="article-detail-title article-title-2">Scroll-Driven Animations Without JavaScript</h1>
+    <div class="article-detail-meta">March 5, 2026</div>
+
+    <div class="article-detail-body">
+      <p>
+        Scroll-linked effects used to mean attaching a listener to the scroll
+        event or setting up an IntersectionObserver, then manually updating
+        styles frame by frame. Performance was fragile, and the code was
+        always more complex than the visual effect warranted.
+      </p>
+      <p>
+        The Scroll Timeline API lets you bind any CSS animation to scroll
+        progress or an element's position in the viewport. A progress bar
+        that fills as you scroll, a parallax hero, or a fade-in on reveal —
+        all declarative, all running on the compositor thread.
+      </p>
+      <p>
+        The key primitives are <code>scroll-timeline</code> (tracks a
+        scroller's offset) and <code>view-timeline</code> (tracks an
+        element's intersection with its scrollport). Pair either with
+        <code>animation-timeline</code> to drive any keyframe sequence.
+      </p>
+    </div>
+
+    <div class="read-next">
+      <div class="read-next-label">Read next</div>
+      <a href="view-transition-mpa-article-1.html">CSS @scope: Native Style Isolation &rarr;</a>
+    </div>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('vt-toggle');
+    const link = document.getElementById('transition-css');
+    const stored = sessionStorage.getItem('mpa-vt-enabled');
+    if (stored === 'false') {
+      toggle.checked = false;
+      link.disabled = true;
+    }
+    toggle.addEventListener('change', () => {
+      link.disabled = !toggle.checked;
+      sessionStorage.setItem('mpa-vt-enabled', String(toggle.checked));
+    });
+  </script>
+</body>
+</html>

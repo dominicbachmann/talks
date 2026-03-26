@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    h3 { font-size: 14px; color: #8b949e; font-weight: 500; }
+
+    .demo-area {
+      flex: 1; border: 1px solid #30363d; border-radius: 6px;
+      background: #161b22; position: relative; overflow: clip;
+    }
+
+    .draggable {
+      padding: 12px 24px; border-radius: 6px; border: 1px solid #3fb950;
+      background: #238636; color: #fff; font-size: 14px; cursor: grab;
+      position: absolute; top: 50%; left: 50%; translate: -50% -50%;
+      user-select: none; white-space: nowrap;
+      anchor-name: --draggable;
+    }
+    .draggable:active { cursor: grabbing; }
+
+    .tooltip {
+      position: absolute;
+      position-anchor: --draggable;
+      padding: 10px 16px; border-radius: 6px; background: #30363d;
+      color: #e6edf3; font-size: 13px; white-space: nowrap;
+      border: 1px solid #484f58;
+      pointer-events: none;
+
+      /* Preferred: below center */
+      top: calc(anchor(bottom) + 10px);
+      justify-self: anchor-center;
+
+      /* Fallbacks when overflowing */
+      position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+    }
+
+    .position-label {
+      position: absolute;
+      position-anchor: --draggable;
+      bottom: anchor(top);
+      left: anchor(center);
+      translate: -50% -32px;
+      font-size: 11px; color: #58a6ff; font-family: monospace;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .info {
+      text-align: center; font-size: 13px; color: #8b949e;
+    }
+    .info code {
+      background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Drag the button around — the tooltip flips automatically near edges</h3>
+  <div class="demo-area" id="area">
+    <div class="draggable" id="draggable">Drag me around</div>
+    <div class="tooltip">
+      I'm a tooltip with <b>position-try-fallbacks</b>
+    </div>
+  </div>
+  <p class="info">
+    Uses <code>position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline</code> — the browser picks the best fit
+  </p>
+
+  <script>
+    const el = document.getElementById('draggable');
+    const area = document.getElementById('area');
+    let dragging = false;
+    let offsetX, offsetY;
+
+    el.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      el.setPointerCapture(e.pointerId);
+      const rect = el.getBoundingClientRect();
+      const areaRect = area.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      el.style.translate = 'none';
+    });
+
+    document.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const areaRect = area.getBoundingClientRect();
+      let x = e.clientX - areaRect.left - offsetX;
+      let y = e.clientY - areaRect.top - offsetY;
+
+      x = Math.max(0, Math.min(x, areaRect.width - el.offsetWidth));
+      y = Math.max(0, Math.min(y, areaRect.height - el.offsetHeight));
+
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+    });
+
+    document.addEventListener('pointerup', () => { dragging = false; });
+  </script>
+</body>
+</html>

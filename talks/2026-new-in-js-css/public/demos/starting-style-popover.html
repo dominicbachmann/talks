@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    h3 {
+      font-size: 14px; color: #8b949e; font-weight: 500;
+    }
+    .demo-area {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 24px;
+      border: 1px solid #30363d; border-radius: 6px;
+      background: #161b22; position: relative;
+    }
+
+    .trigger {
+      padding: 12px 24px; border-radius: 6px; border: 1px solid #3fb950;
+      background: #238636; color: #fff; font-size: 15px; cursor: pointer;
+    }
+    .trigger:hover { background: #2ea043; }
+
+    [popover] {
+      padding: 20px 28px; border-radius: 10px;
+      background: #21262d; border: 1px solid #30363d;
+      color: #c9d1d9; font-size: 15px;
+      max-width: 320px; text-align: center;
+
+      /* Final (visible) state */
+      opacity: 1;
+      transform: translateY(0) scale(1);
+
+      transition: opacity 0.3s ease,
+                  transform 0.3s ease,
+                  display 0.3s ease allow-discrete,
+                  overlay 0.3s ease allow-discrete;
+    }
+
+    /* Entry animation — the "before" state */
+    @starting-style {
+      [popover]:popover-open {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+      }
+    }
+
+    /* Exit animation — same as starting-style but applied when closing */
+    [popover]:not(:popover-open) {
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+    }
+
+    [popover]::backdrop {
+      background: rgba(0, 0, 0, 0.4);
+      opacity: 1;
+      transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+    }
+
+    @starting-style {
+      [popover]:popover-open::backdrop {
+        opacity: 0;
+      }
+    }
+
+    [popover]:not(:popover-open)::backdrop {
+      opacity: 0;
+    }
+
+    [popover] h4 {
+      margin-bottom: 8px; color: #58a6ff; font-size: 17px;
+    }
+
+    .info {
+      text-align: center; font-size: 13px; color: #8b949e;
+    }
+    .info code {
+      background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Click the button — popover fades & slides in, click outside to dismiss</h3>
+  <div class="demo-area">
+    <button class="trigger" popovertarget="my-popover">Show notification</button>
+    <div id="my-popover" popover>
+      <h4>New message</h4>
+      <p>You have 3 unread notifications. Click outside or press Escape to dismiss.</p>
+    </div>
+  </div>
+  <p class="info">
+    <code>@starting-style</code> on <code>:popover-open</code> animates entry.
+    Matching styles on <code>:not(:popover-open)</code> animate exit.
+    <code>overlay</code> keeps it in the top layer during the exit transition.
+  </p>
+</body>
+</html>

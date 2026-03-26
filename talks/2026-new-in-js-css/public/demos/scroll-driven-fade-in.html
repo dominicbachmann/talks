@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    h3 {
+      font-size: 14px; color: #8b949e; font-weight: 500;
+    }
+    .demo-area {
+      flex: 1; border: 1px solid #30363d; border-radius: 6px;
+      background: #161b22; overflow: hidden;
+    }
+    .scroll-container {
+      height: 100%; overflow-y: auto; padding: 32px;
+    }
+
+    .spacer {
+      text-align: center; padding: 40px 0; color: #484f58; font-size: 14px;
+    }
+
+    /* Fade-in on scroll — pure CSS */
+    @keyframes fade-slide-in {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+      animation: fade-slide-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+
+    .card h4 {
+      font-size: 16px; color: #e6edf3; margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 14px; line-height: 1.6; color: #8b949e;
+    }
+    .card .tag {
+      display: inline-block; margin-top: 12px; padding: 4px 10px;
+      border-radius: 12px; font-size: 12px; font-weight: 500;
+    }
+    .tag-css { background: #1f3a2d; color: #3fb950; }
+    .tag-js { background: #3b2e1a; color: #f0883e; }
+    .tag-html { background: #1f2a3d; color: #58a6ff; }
+    .tag-perf { background: #2d1f3a; color: #d2a8ff; }
+
+    .info {
+      text-align: center; font-size: 13px; color: #8b949e;
+    }
+    .info code {
+      background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Scroll down — cards fade and slide in as they enter the viewport</h3>
+  <div class="demo-area">
+    <div class="scroll-container">
+      <div class="spacer">&#8595; Scroll to reveal cards &#8595;</div>
+
+      <div class="card">
+        <h4>Scroll-Driven Progress Bar</h4>
+        <p>A fixed bar at the top that fills as you scroll the page. Uses <code>animation-timeline: scroll(root)</code> with a keyframe that goes from <code>scaleX(0)</code> to <code>scaleX(1)</code>.</p>
+        <span class="tag tag-css">CSS</span>
+      </div>
+
+      <div class="card">
+        <h4>Fade-In on Scroll</h4>
+        <p>Elements fade and slide in as they enter the viewport. Uses <code>animation-timeline: view()</code> — a CSS-native replacement for IntersectionObserver + class toggle patterns.</p>
+        <span class="tag tag-css">CSS</span>
+      </div>
+
+      <div class="card">
+        <h4>Parallax Backgrounds</h4>
+        <p>Background layers move at different rates than foreground content. Each layer uses <code>scroll()</code> with different keyframe ranges to create depth.</p>
+        <span class="tag tag-css">CSS</span>
+      </div>
+
+      <div class="card">
+        <h4>Shrinking Sticky Headers</h4>
+        <p>Headers that reduce their padding and font size as the user scrolls down. Previously required reading <code>scrollTop</code> and setting inline styles on every scroll event.</p>
+        <span class="tag tag-js">Was JS</span>
+      </div>
+
+      <div class="card">
+        <h4>Compositor Thread Performance</h4>
+        <p>Scroll-driven animations run on the compositor thread, not the main thread. This means they don't compete with JavaScript execution and are immune to main-thread jank.</p>
+        <span class="tag tag-perf">Performance</span>
+      </div>
+
+      <div class="card">
+        <h4>Reversibility for Free</h4>
+        <p>When you scroll back up, the animations reverse automatically. No extra code for scroll-direction detection — the browser handles it because animation progress is tied to position, not events.</p>
+        <span class="tag tag-css">CSS</span>
+      </div>
+
+      <div class="card">
+        <h4>animation-range Control</h4>
+        <p>The <code>animation-range</code> property lets you specify exactly when the animation starts and ends relative to the element's visibility — entry, exit, contain, or cover phases.</p>
+        <span class="tag tag-css">CSS</span>
+      </div>
+
+      <div class="card">
+        <h4>Progressive Enhancement</h4>
+        <p>In browsers that don't support scroll-driven animations, the keyframes are simply ignored. Elements appear normally with no animation — no broken layout, no errors.</p>
+        <span class="tag tag-html">HTML</span>
+      </div>
+    </div>
+  </div>
+  <p class="info">
+    Each card uses <code>animation-timeline: view()</code> with <code>animation-range: entry</code> — scroll back up to see them reverse
+  </p>
+</body>
+</html>

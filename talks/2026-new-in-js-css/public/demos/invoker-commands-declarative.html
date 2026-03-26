@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    h3 {
+      font-size: 14px; color: #8b949e; font-weight: 500;
+    }
+    .demo-area {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 24px;
+      border: 1px solid #30363d; border-radius: 6px;
+      background: #161b22; position: relative;
+    }
+
+    /* -- Trigger button -- */
+    .trigger {
+      padding: 12px 24px; border-radius: 6px; border: 1px solid #f85149;
+      background: #da3633; color: #fff; font-size: 15px; cursor: pointer;
+    }
+    .trigger:hover { background: #b62324; }
+
+    /* -- Dialog -- */
+    dialog {
+      margin: auto;
+      border: 1px solid #30363d; border-radius: 10px;
+      background: #21262d; color: #c9d1d9;
+      padding: 28px 32px; max-width: 400px; text-align: center;
+      opacity: 1; transform: translateY(0);
+      transition: opacity 0.2s, transform 0.2s, display 0.2s allow-discrete, overlay 0.2s allow-discrete;
+    }
+    dialog[open] {
+      opacity: 1; transform: translateY(0);
+    }
+    @starting-style {
+      dialog[open] {
+        opacity: 0; transform: translateY(-12px);
+      }
+    }
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      opacity: 1;
+      transition: opacity 0.2s, display 0.2s allow-discrete, overlay 0.2s allow-discrete;
+    }
+    @starting-style {
+      dialog[open]::backdrop {
+        opacity: 0;
+      }
+    }
+    dialog h2 {
+      font-size: 20px; margin-bottom: 8px; color: #f0f6fc;
+    }
+    dialog p {
+      font-size: 15px; color: #8b949e; margin-bottom: 20px;
+    }
+    dialog button {
+      padding: 10px 24px; border-radius: 6px; font-size: 15px; cursor: pointer;
+    }
+    dialog button:focus-visible {
+      outline: 2px solid #58a6ff; outline-offset: 2px;
+    }
+    .btn-cancel {
+      border: 1px solid #30363d; background: #21262d; color: #c9d1d9;
+    }
+    .btn-cancel:hover { background: #30363d; }
+    .btn-confirm {
+      border: 1px solid #3fb950; background: #238636; color: #fff;
+    }
+    .btn-confirm:hover { background: #2ea043; }
+
+    /* -- Source view -- */
+    .source {
+      font-size: 12px; font-family: ui-monospace, monospace;
+      padding: 14px 16px; border-radius: 6px;
+      background: #161b22; border: 1px solid #30363d;
+      white-space: pre; overflow-x: auto; line-height: 1.5;
+      color: #8b949e;
+    }
+    .source .tag { color: #7ee787; }
+    .source .attr { color: #d2a8ff; }
+    .source .val { color: #a5d6ff; }
+    .source .comment { color: #6e7681; font-style: italic; }
+  </style>
+</head>
+<body>
+  <h3>Click "Delete account" — the entire flow is zero JavaScript</h3>
+  <div class="demo-area">
+
+    <button class="trigger" commandfor="confirm-dialog" command="show-modal">
+      Delete account
+    </button>
+
+    <dialog id="confirm-dialog">
+      <h2>Are you sure?</h2>
+      <p>This action cannot be undone.</p>
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button class="btn-cancel" commandfor="confirm-dialog" command="close" value="cancel">Cancel</button>
+        <button class="btn-confirm" commandfor="confirm-dialog" command="close" value="confirm">Confirm</button>
+      </div>
+    </dialog>
+
+  </div>
+  <div class="source"><span class="tag">&lt;button</span> <span class="attr">commandfor</span>=<span class="val">"confirm-dialog"</span> <span class="attr">command</span>=<span class="val">"show-modal"</span><span class="tag">&gt;</span>
+  Delete account
+<span class="tag">&lt;/button&gt;</span>
+
+<span class="tag">&lt;dialog</span> <span class="attr">id</span>=<span class="val">"confirm-dialog"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;h2&gt;</span>Are you sure?<span class="tag">&lt;/h2&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">commandfor</span>=<span class="val">"confirm-dialog"</span> <span class="attr">command</span>=<span class="val">"close"</span> <span class="attr">value</span>=<span class="val">"cancel"</span><span class="tag">&gt;</span>Cancel<span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">commandfor</span>=<span class="val">"confirm-dialog"</span> <span class="attr">command</span>=<span class="val">"close"</span> <span class="attr">value</span>=<span class="val">"confirm"</span><span class="tag">&gt;</span>Confirm<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/dialog&gt;</span>
+</body>
+</html>

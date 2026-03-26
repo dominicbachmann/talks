@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS @scope: Native Style Isolation — DevBlog</title>
+  <link rel="stylesheet" href="view-transition-mpa-styles.css">
+  <link rel="stylesheet" href="view-transition-mpa-transition.css" id="transition-css">
+</head>
+<body>
+  <nav class="nav">
+    <span class="nav-title">DevBlog</span>
+    <label class="nav-toggle">
+      <input type="checkbox" id="vt-toggle" checked>
+      View Transitions enabled
+    </label>
+  </nav>
+
+  <div class="article-detail">
+    <a href="view-transition-mpa-index.html" class="back-link">&#8592; All articles</a>
+
+    <div class="article-hero hero-1 article-hero-1"></div>
+    <h1 class="article-detail-title article-title-1">CSS @scope: Native Style Isolation</h1>
+    <div class="article-detail-meta">March 12, 2026</div>
+
+    <div class="article-detail-body">
+      <p>
+        For years, CSS scoping required workarounds: BEM naming conventions,
+        CSS Modules hashing class names at build time, or Shadow DOM's hard
+        encapsulation boundary. Each came with trade-offs — naming discipline,
+        toolchain coupling, or limited styling flexibility.
+      </p>
+      <p>
+        The <code>@scope</code> rule changes this. You define a scoping root
+        and an optional lower boundary, and the browser contains your styles
+        to that subtree. No build step, no runtime overhead, and it works with
+        the cascade you already know.
+      </p>
+      <p>
+        Combined with <code>@layer</code> for ordering and container queries
+        for responsive components, <code>@scope</code> rounds out the set of
+        primitives that make CSS-in-JS tooling optional for many projects.
+      </p>
+    </div>
+
+    <div class="read-next">
+      <div class="read-next-label">Read next</div>
+      <a href="view-transition-mpa-article-2.html">Scroll-Driven Animations Without JavaScript &rarr;</a>
+    </div>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('vt-toggle');
+    const link = document.getElementById('transition-css');
+    const stored = sessionStorage.getItem('mpa-vt-enabled');
+    if (stored === 'false') {
+      toggle.checked = false;
+      link.disabled = true;
+    }
+    toggle.addEventListener('change', () => {
+      link.disabled = !toggle.checked;
+      sessionStorage.setItem('mpa-vt-enabled', String(toggle.checked));
+    });
+  </script>
+</body>
+</html>

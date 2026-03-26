@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    h3 {
+      font-size: 14px; color: #8b949e; font-weight: 500;
+    }
+    .demo-area {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 24px;
+      border: 1px solid #30363d; border-radius: 6px;
+      background: #161b22; position: relative;
+    }
+    .demo-area p {
+      font-size: 14px; color: #8b949e; max-width: 400px; text-align: center;
+    }
+
+    .trigger {
+      padding: 12px 24px; border-radius: 6px; border: 1px solid #3fb950;
+      background: #238636; color: #fff; font-size: 15px; cursor: pointer;
+    }
+    .trigger:hover { background: #2ea043; }
+
+    dialog {
+      margin: auto;
+      border: 1px solid #30363d; border-radius: 10px;
+      background: #21262d; color: #c9d1d9;
+      padding: 28px 32px; max-width: 400px; text-align: center;
+    }
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+    }
+    dialog h2 {
+      font-size: 20px; margin-bottom: 8px; color: #f0f6fc;
+    }
+    dialog p {
+      font-size: 15px; color: #8b949e; margin-bottom: 20px;
+    }
+    dialog button {
+      padding: 10px 28px; border-radius: 6px; border: 1px solid #3fb950;
+      background: #238636; color: #fff; font-size: 15px; cursor: pointer;
+    }
+    dialog button:hover { background: #2ea043; }
+    dialog button:focus-visible {
+      outline: 2px solid #58a6ff; outline-offset: 2px;
+    }
+
+    .extra-focusable {
+      margin-top: 8px; padding: 8px 16px; border-radius: 4px;
+      border: 1px solid #30363d; background: transparent;
+      color: #8b949e; font-size: 13px; cursor: pointer;
+    }
+    .extra-focusable:focus-visible {
+      outline: 2px solid #58a6ff; outline-offset: 2px;
+    }
+
+    .info {
+      text-align: center; font-size: 13px; color: #8b949e;
+    }
+    .info code {
+      background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Click the button to open a modal dialog — Tab to test focus trapping, Escape to close</h3>
+  <div class="demo-area">
+    <p>This text is behind the dialog. When the modal is open, it becomes inert — you can't interact with it.</p>
+    <button class="trigger" id="open-btn">Open dialog</button>
+    <dialog id="my-dialog">
+      <h2>Session expired</h2>
+      <p>Your session has timed out. Please log in again to continue.</p>
+      <form method="dialog">
+        <button value="ok">OK</button>
+      </form>
+      <button class="extra-focusable" onclick="this.closest('dialog').close()">Or dismiss</button>
+    </dialog>
+  </div>
+  <p class="info">
+    <code>showModal()</code> gives you: top-layer rendering, <code>::backdrop</code>, focus trap, Escape to close, <code>inert</code> background.
+  </p>
+  <script>
+    const dialog = document.getElementById('my-dialog');
+    document.getElementById('open-btn').addEventListener('click', () => {
+      dialog.showModal();
+    });
+  </script>
+</body>
+</html>

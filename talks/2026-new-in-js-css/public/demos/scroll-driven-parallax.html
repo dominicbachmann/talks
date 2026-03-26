@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+    }
+
+    /* Parallax shapes — fixed in viewport, animated by root scroll */
+    @keyframes parallax-slow {
+      from { transform: translateY(80px); }
+      to   { transform: translateY(-80px); }
+    }
+    @keyframes parallax-medium {
+      from { transform: translateY(140px); }
+      to   { transform: translateY(-140px); }
+    }
+    @keyframes parallax-fast {
+      from { transform: translateY(200px); }
+      to   { transform: translateY(-200px); }
+    }
+
+    .bg-shapes {
+      position: sticky;
+      top: 0;
+      height: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .shape {
+      position: absolute; border-radius: 50%;
+    }
+    .shape-1 {
+      width: 200px; height: 200px; background: #3fb950; opacity: 0.15;
+      top: 8%; left: 6%;
+      animation: parallax-slow linear;
+      animation-timeline: scroll();
+    }
+    .shape-2 {
+      width: 120px; height: 120px; background: #58a6ff; opacity: 0.18;
+      top: 90%;
+        right: 15%;
+      animation: parallax-medium linear;
+      animation-timeline: scroll();
+    }
+    .shape-3 {
+      width: 160px; height: 160px; background: #d2a8ff; opacity: 0.15;
+      top: 50%; left: 20%;
+      animation: parallax-fast linear;
+      animation-timeline: scroll();
+    }
+    .shape-4 {
+      width: 100px; height: 100px; background: #f0883e; opacity: 0.16;
+      top: 12%; left: 50%;
+      animation: parallax-slow linear;
+      animation-timeline: scroll();
+    }
+    .shape-5 {
+      width: 140px; height: 140px; background: #f85149; opacity: 0.15;
+      top: 80%; right: 6%;
+      animation: parallax-medium linear;
+      animation-timeline: scroll();
+    }
+
+    /* Fade-in content sections */
+    @keyframes section-reveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .content {
+      position: relative; z-index: 1; padding: 40px 48px;
+    }
+    .section {
+      padding: 48px 0;
+      animation: section-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+    .section h2 {
+      font-size: 22px; color: #e6edf3; margin-bottom: 12px;
+    }
+    .section p {
+      font-size: 15px; line-height: 1.7; color: #8b949e;
+      max-width: 500px;
+    }
+    .section code {
+      background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-size: 13px; color: #c9d1d9;
+    }
+    .section .badge {
+      display: inline-block; margin-top: 12px; padding: 6px 14px;
+      border-radius: 6px; font-size: 13px; font-weight: 500;
+      border: 1px solid;
+    }
+    .badge-green { color: #3fb950; border-color: #238636; background: #0d1117; }
+    .badge-blue { color: #58a6ff; border-color: #1f6feb; background: #0d1117; }
+    .badge-purple { color: #d2a8ff; border-color: #8957e5; background: #0d1117; }
+
+    .divider {
+      width: 40px; height: 2px; background: #30363d; margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+    <div class="shape shape-5"></div>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <h2>Parallax with scroll()</h2>
+      <p>The colored shapes behind this text each have a different <code>@keyframes</code> range, tied to <code>animation-timeline: scroll()</code>. They translate at different speeds as you scroll — creating depth with zero JavaScript.</p>
+      <div class="badge badge-green">animation-timeline: scroll()</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <h2>Reveal with view()</h2>
+      <p>Each text section uses <code>animation-timeline: view()</code> to fade and slide in as it enters the scrollport. The <code>animation-range: entry</code> property controls exactly when the animation plays.</p>
+      <div class="badge badge-blue">animation-timeline: view()</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <h2>Two Timelines, One Page</h2>
+      <p>The parallax shapes use <code>scroll()</code> — driven by the container's overall scroll position. The text sections use <code>view()</code> — driven by each element's individual visibility. Both run simultaneously on the compositor thread.</p>
+      <div class="badge badge-purple">Compositor thread</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <h2>No Libraries Required</h2>
+      <p>This entire page would have required GSAP ScrollTrigger or a custom IntersectionObserver setup. Now it's standard CSS — readable, maintainable, and performant by default.</p>
+      <div class="badge badge-green">Pure CSS</div>
+    </div>
+
+    <div style="height: 100px;"></div>
+  </div>
+</body>
+</html>

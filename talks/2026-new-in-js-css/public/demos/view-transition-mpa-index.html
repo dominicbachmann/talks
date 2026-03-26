@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevBlog</title>
+  <link rel="stylesheet" href="view-transition-mpa-styles.css">
+  <link rel="stylesheet" href="view-transition-mpa-transition.css" id="transition-css">
+</head>
+<body>
+  <nav class="nav">
+    <span class="nav-title">DevBlog</span>
+    <label class="nav-toggle">
+      <input type="checkbox" id="vt-toggle" checked>
+      View Transitions enabled
+    </label>
+  </nav>
+
+  <div class="card-grid">
+    <a href="view-transition-mpa-article-1.html" class="article-card" data-article="1">
+      <div class="article-thumb thumb-1"></div>
+      <div class="article-card-body">
+        <div class="article-card-title">CSS @scope: Native Style Isolation</div>
+        <div class="article-card-meta">March 12, 2026</div>
+        <div class="article-card-excerpt">
+          Scope your styles to a subtree without BEM, CSS Modules, or build tools.
+          The browser handles containment natively.
+        </div>
+      </div>
+    </a>
+
+    <a href="view-transition-mpa-article-2.html" class="article-card" data-article="2">
+      <div class="article-thumb thumb-2"></div>
+      <div class="article-card-body">
+        <div class="article-card-title">Scroll-Driven Animations Without JavaScript</div>
+        <div class="article-card-meta">March 5, 2026</div>
+        <div class="article-card-excerpt">
+          Link any CSS animation to scroll progress or an element's visibility
+          in the viewport — no IntersectionObserver needed.
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('vt-toggle');
+    const link = document.getElementById('transition-css');
+    const stored = sessionStorage.getItem('mpa-vt-enabled');
+    if (stored === 'false') {
+      toggle.checked = false;
+      link.disabled = true;
+    }
+    toggle.addEventListener('change', () => {
+      link.disabled = !toggle.checked;
+      sessionStorage.setItem('mpa-vt-enabled', String(toggle.checked));
+    });
+  </script>
+</body>
+</html>

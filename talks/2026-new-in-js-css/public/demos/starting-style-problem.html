@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    h3 {
+      font-size: 14px; color: #8b949e; font-weight: 500;
+    }
+    .demo-area {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 24px;
+      border: 1px solid #30363d; border-radius: 6px;
+      background: #161b22; position: relative;
+    }
+
+    .toggle-btn {
+      padding: 12px 24px; border-radius: 6px; border: 1px solid #3fb950;
+      background: #238636; color: #fff; font-size: 15px; cursor: pointer;
+    }
+    .toggle-btn:hover { background: #2ea043; }
+
+    .box {
+      width: 200px; height: 120px; border-radius: 8px;
+      background: linear-gradient(135deg, #58a6ff, #bc8cff);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 600; color: #fff;
+      /* The transition we WANT to work */
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .box.hidden {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .info {
+      text-align: center; font-size: 13px; color: #8b949e;
+    }
+    .info code {
+      background: #21262d; padding: 2px 6px; border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Click the button — the element fades and slides in</h3>
+  <div class="demo-area">
+    <button class="toggle-btn" onclick="toggle()">Toggle visibility</button>
+    <div class="box" id="box">Hello!</div>
+  </div>
+  <p class="info">
+    <code>opacity</code> and <code>transform</code> transitions on
+    <code>display: none</code> toggle
+  </p>
+  <script>
+    const box = document.getElementById('box');
+    document.querySelector('.toggle-btn').addEventListener('click', () => {
+      box.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

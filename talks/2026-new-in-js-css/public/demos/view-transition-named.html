@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px; height: 100vh;
+    }
+    .controls { display: flex; gap: 8px; align-items: center; }
+    .toggle-label {
+      font-size: 13px; color: #8b949e; margin-left: auto;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .toggle-label input { accent-color: #3fb950; width: 16px; height: 16px; }
+    .content {
+      flex: 1; border-radius: 6px; border: 1px solid #30363d;
+      background: #161b22; overflow: auto; padding: 16px;
+    }
+
+    /* --- Gallery grid --- */
+    .gallery {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      list-style: none;
+    }
+    .gallery li {
+      contain: paint;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .gallery li:hover { outline: 2px solid #58a6ff; outline-offset: 0; }
+    .gallery img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover;
+      display: block;
+    }
+    .gallery .meta {
+      background: #21262d; padding: 6px 10px; font-size: 13px;
+      color: #8b949e; contain: paint;
+    }
+
+    /* --- Detail view --- */
+    .detail-img-container {
+      contain: paint;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .detail-img-container img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block;
+    }
+    .detail-info {
+      padding: 12px 0; font-size: 14px; color: #8b949e; line-height: 1.6;
+    }
+    .detail-info h2 { color: #c9d1d9; margin-bottom: 4px; font-size: 18px; }
+    .back-link {
+      display: inline-block; color: #58a6ff; cursor: pointer;
+      font-size: 14px; margin-bottom: 12px;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* --- View transition customization --- */
+    ::view-transition-group(hero) {
+      animation-duration: 0.3s;
+      animation-timing-function: ease;
+      z-index: 1;
+    }
+    ::view-transition-group(root) {
+      animation-duration: 0.3s;
+      z-index: 0;
+    }
+    ::view-transition-image-pair(root) {
+      isolation: auto;
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      mix-blend-mode: normal;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <label class="toggle-label">
+      <input type="checkbox" id="toggle-names" checked>
+      view-transition-name enabled
+    </label>
+  </div>
+  <div class="content" id="content"></div>
+
+  <script>
+    const photos = [
+      { id: 10,  title: 'Forest Trail',  desc: 'A winding path through dense evergreen forest with filtered morning light.' },
+      { id: 20,  title: 'Rocky Coast',    desc: 'Dramatic coastline with waves crashing against weathered rock formations.' },
+      { id: 30,  title: 'Mountain Ridge', desc: 'Snow-capped peaks rising above the clouds at golden hour.' },
+      { id: 40,  title: 'Desert Dunes',   desc: 'Rolling sand dunes with sharp ridgelines casting long shadows.' },
+      { id: 50,  title: 'Still Lake',     desc: 'Mirror-like lake surface reflecting surrounding pine trees and sky.' },
+      { id: 60,  title: 'City Lights',    desc: 'Urban skyline at twilight with reflections on the river below.' },
+    ];
+
+    function imgUrl(id, w) { return `https://picsum.photos/seed/${id}/${w}/${Math.round(w * 9/16)}`; }
+    function useNames() { return document.getElementById('toggle-names').checked; }
+
+    let selectedIndex = null;
+    let elementsToUntag = [];
+
+    function cleanupNames() {
+      while (elementsToUntag.length) {
+        elementsToUntag.pop().style.viewTransitionName = '';
+      }
+    }
+
+    function renderGallery() {
+      const el = document.getElementById('content');
+      el.innerHTML = '<ul class="gallery">' + photos.map((p, i) =>
+        `<li data-index="${i}">
+          <img src="${imgUrl(p.id, 400)}" alt="${p.title}">
+          <div class="meta">${p.title}</div>
+        </li>`
+      ).join('') + '</ul>';
+
+      el.querySelectorAll('li[data-index]').forEach(li => {
+        li.addEventListener('click', () => {
+          selectedIndex = parseInt(li.dataset.index);
+
+          // Tag the clicked thumbnail BEFORE the transition snapshots old state
+          if (useNames()) {
+            li.style.viewTransitionName = 'hero';
+            elementsToUntag.push(li);
+          }
+
+          navigate(renderDetail);
+        });
+      });
+    }
+
+    function renderDetail() {
+      const p = photos[selectedIndex];
+      const el = document.getElementById('content');
+      const nameStyle = useNames() ? ' style="view-transition-name: hero"' : '';
+      el.innerHTML =
+        `<div class="back-link" id="back">\u2190 Back to gallery</div>
+        <div class="detail-img-container"${nameStyle}>
+          <img src="${imgUrl(p.id, 900)}" alt="${p.title}">
+        </div>
+        <div class="detail-info">
+          <h2>${p.title}</h2>
+          <p>${p.desc}</p>
+        </div>`;
+
+      document.getElementById('back').addEventListener('click', () => {
+        navigate(() => {
+          renderGallery();
+
+          // Tag the matching thumbnail AFTER DOM update (new state)
+          if (useNames()) {
+            const thumb = document.querySelector(`li[data-index="${selectedIndex}"]`);
+            if (thumb) {
+              thumb.style.viewTransitionName = 'hero';
+              elementsToUntag.push(thumb);
+            }
+          }
+        });
+      });
+    }
+
+    function navigate(renderFn) {
+      if (document.startViewTransition && useNames()) {
+        const transition = document.startViewTransition(() => {
+          renderFn();
+        });
+        transition.finished.finally(cleanupNames);
+      } else if (document.startViewTransition) {
+        document.startViewTransition(() => renderFn());
+      } else {
+        renderFn();
+      }
+    }
+
+    renderGallery();
+  </script>
+</body>
+</html>
