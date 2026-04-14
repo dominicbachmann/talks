@@ -1,0 +1,47 @@
+.card {
+  background: #161b22;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
+}
+h2 {
+  color: #f78166;
+  margin: 0 0 1.5rem;
+}
+.field {
+  margin-bottom: 1rem;
+}
+label {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #e6edf3;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+input:focus {
+  outline: none;
+  border-color: #f78166;
+}
+.model-output {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+}
+.model-output pre {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+}

@@ -1,0 +1,14 @@
+<div class="card">
+  <h2>Signal Forms</h2>
+  <div class="field">
+    <label>First name</label>
+    <app-labeled-input-signal [formField]="nameForm.firstName" />
+  </div>
+  <div class="field">
+    <label>Last name</label>
+    <app-labeled-input-signal [formField]="nameForm.lastName" />
+  </div>
+  <div class="model-output">
+    <pre>{{ nameModel() | json }}</pre>
+  </div>
+</div>

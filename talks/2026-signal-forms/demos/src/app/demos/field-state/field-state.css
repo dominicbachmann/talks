@@ -1,0 +1,63 @@
+.card {
+  background: #161b22;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 420px;
+  margin: 2rem auto;
+}
+h2 {
+  color: #f85149;
+  margin: 0 0 1.5rem;
+}
+.field {
+  margin-bottom: 1.5rem;
+}
+label {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #e6edf3;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+input:focus {
+  outline: none;
+  border-color: #f85149;
+}
+.state-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1rem;
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+}
+.state-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.key {
+  color: rgba(255, 255, 255, 0.5);
+}
+.val {
+  color: #6e7681;
+}
+.val.string {
+  color: #a5d6ff;
+}
+.val.true {
+  color: #3fb950;
+}

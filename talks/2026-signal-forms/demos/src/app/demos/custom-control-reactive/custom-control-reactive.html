@@ -1,0 +1,16 @@
+<div class="card">
+  <h2>Reactive Forms</h2>
+  <form [formGroup]="nameForm">
+    <div class="field">
+      <label>First name</label>
+      <app-labeled-input-cva formControlName="firstName" />
+    </div>
+    <div class="field">
+      <label>Last name</label>
+      <app-labeled-input-cva formControlName="lastName" />
+    </div>
+  </form>
+  <div class="model-output">
+    <pre>{{ nameForm.value | json }}</pre>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal Form Demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #3fb950;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.4rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      background: #0d1117;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      color: #e6edf3;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input:focus {
+      border-color: #3fb950;
+    }
+
+    .field { margin-bottom: 1rem; }
+
+    .preview {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: rgba(63,185,80,0.06);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.75);
+      min-height: 2.4rem;
+    }
+
+    .preview span { color: #3fb950; font-weight: 500; }
+
+    .badge {
+      display: inline-block;
+      margin-top: 1.25rem;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Signal-based Form</h2>
+
+    <div class="field">
+      <label for="name">name()</label>
+      <input id="name" type="text" placeholder="Type your name…" />
+    </div>
+
+    <div class="field">
+      <label for="email">email()</label>
+      <input id="email" type="email" placeholder="you@example.com" />
+    </div>
+
+    <div class="preview" id="preview">
+      Hello, <span id="out-name">…</span>! We'll reach you at <span id="out-email">…</span>.
+    </div>
+
+    <div class="badge">reactive · no subscriptions · no change detection</div>
+  </div>
+
+  <script>
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const outName = document.getElementById('out-name');
+    const outEmail = document.getElementById('out-email');
+
+    function update() {
+      outName.textContent = nameInput.value || '…';
+      outEmail.textContent = emailInput.value || '…';
+    }
+
+    nameInput.addEventListener('input', update);
+    emailInput.addEventListener('input', update);
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<div class="card">
+  <h2>Field State</h2>
+
+  <div class="field">
+    <label>Username</label>
+    <input [formField]="profileForm.username" />
+  </div>
+
+  <div class="state-grid">
+    <div class="state-row">
+      <span class="key">value</span>
+      <span class="val string">"{{ username.value() }}"</span>
+    </div>
+    <div class="state-row">
+      <span class="key">touched</span>
+      <span class="val" [class.true]="username.touched()">{{ username.touched() }}</span>
+    </div>
+    <div class="state-row">
+      <span class="key">dirty</span>
+      <span class="val" [class.true]="username.dirty()">{{ username.dirty() }}</span>
+    </div>
+    <div class="state-row">
+      <span class="key">valid</span>
+      <span class="val" [class.true]="username.valid()">{{ username.valid() }}</span>
+    </div>
+    <div class="state-row">
+      <span class="key">disabled</span>
+      <span class="val" [class.true]="username.disabled()">{{ username.disabled() }}</span>
+    </div>
+    <div class="state-row">
+      <span class="key">readonly</span>
+      <span class="val" [class.true]="username.readonly()">{{ username.readonly() }}</span>
+    </div>
+    <div class="state-row">
+      <span class="key">hidden</span>
+      <span class="val" [class.true]="username.hidden()">{{ username.hidden() }}</span>
+    </div>
+  </div>
+</div>
