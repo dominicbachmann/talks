@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  --section: var(--generative-ui);
+}
+
+.ui-message {
+  padding: 1.2rem;
+  max-width: 100%;
+}

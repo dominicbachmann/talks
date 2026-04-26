@@ -1,0 +1,62 @@
+# Hashbrown Tech Talk
+
+- Intro
+  - Title Slide
+  - Agents that run in the browser
+  - Table of Contents
+- System instructions
+  - Authoring System Instructions
+    - Structuring the Prompt
+    - Setting the Role & Tone
+    - Setting Rules
+    - Writing Clear Examples
+    - Managing User Input
+    - Demo Prompt without vs prompt with system instructions
+  - Client side vs Server side system instructions
+    - Security of System Instructions
+    - Consider Allowing Users to Customize the Instruction
+- Hashbrown AI Basics: Roles, Turns & Completions
+  - What is a message?
+  - Message roles
+  - The assistant turn
+  - What is a completion?
+  - Error messages
+  - Quick cheat-sheet
+- Hashbrown Resources
+  - chatResource
+  - completionResource
+  - structuredChatResource
+  - structuredCompletionResource
+  - uiChatResource
+- Hashbrown Skillet Schema
+  - Primitives
+  - Compound values
+  - AnyOf
+  - Enum
+  - There are more (not going into detail)
+  - Streaming
+- Hashbrown Streaming
+  - Streaming responses
+  - Demo
+- Hashbrown Tool Calling
+  - How it works
+  - createTool Function
+  - Providing the tools
+  - Demo
+- Hashbrown Generative UI
+  - exposeComponent
+  - Streaming
+  - Children
+  - uiChatResource
+  - Render all messages with components
+  - Demo
+- JavaScript runtime
+  - Why
+  - How it works
+  - createRuntime
+  - createRuntimeFunctions
+  - createToolJavascript
+  - Demo
+- Questions
+- Thank you
+  - links

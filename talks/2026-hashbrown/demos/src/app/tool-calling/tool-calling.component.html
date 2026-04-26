@@ -1,0 +1,71 @@
+<div class="chat-shell tool-calling">
+  <header class="chat-header">
+    <span class="chat-eyebrow">06 · Tool Calling</span>
+    <h1 class="chat-title">Reel, your cinema concierge</h1>
+    <p class="chat-sub">
+      Three tools — <code>getMovies</code>, <code>getShowtimes</code>,
+      <code>bookSeats</code> — wired into a single <code>chatResource</code>.
+      Tool calls appear inline as pills so you can see the turn loop.
+    </p>
+  </header>
+
+  <div class="suggestions">
+    @for (s of suggestions; track s) {
+      <button class="suggestion" type="button" (click)="suggest(s)">{{ s }}</button>
+    }
+  </div>
+
+  <div class="chat-log">
+    @for (m of messages(); track $index) {
+      @switch (m.role) {
+        @case ('user') {
+          <div class="message user">
+            <span class="role">You</span>
+            <span>{{ m.content }}</span>
+          </div>
+        }
+        @case ('assistant') {
+          <div class="message assistant">
+            <span class="role">Reel</span>
+            @if (m.toolCalls && m.toolCalls.length > 0) {
+              <div class="tool-calls">
+                @for (tc of m.toolCalls; track tc.toolCallId) {
+                  <span class="tool-pill" [class.pending]="tc.status === 'pending'">
+                    <span class="tool-name">{{ tc.name }}</span>
+                    <span class="tool-args">{{ prettyArgs(tc.args) }}</span>
+                  </span>
+                }
+              </div>
+            }
+            @if (m.content) {
+              <span>{{ m.content }}</span>
+            }
+          </div>
+        }
+        @case ('error') {
+          <div class="message error">
+            <span class="role">Error</span>
+            <span>{{ m.content }}</span>
+          </div>
+        }
+      }
+    }
+    @if (status()) {
+      <div class="status">{{ status() }}</div>
+    }
+  </div>
+
+  <form class="composer" (submit)="$event.preventDefault(); send()">
+    <input
+      type="text"
+      [value]="draft()"
+      (input)="draft.set($any($event.target).value)"
+      name="draft"
+      placeholder="Ask about showtimes, book seats…"
+      autocomplete="off"
+    />
+    <button type="submit" [disabled]="!draft().trim() || chat.isLoading()">
+      Send
+    </button>
+  </form>
+</div>
