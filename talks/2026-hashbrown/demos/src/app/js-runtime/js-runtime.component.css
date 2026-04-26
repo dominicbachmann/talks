@@ -1,0 +1,88 @@
+:host {
+  display: block;
+  --section: var(--js-runtime);
+}
+
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+  gap: 1.4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.4rem 4rem;
+}
+
+.page .chat-shell {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
+
+.script-panel {
+  position: sticky;
+  top: 72px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  padding: 1rem 1.1rem;
+  max-height: calc(100vh - 96px);
+  overflow: hidden;
+}
+
+.script-panel header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.panel-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--js-runtime);
+  font-weight: 700;
+}
+
+.panel-hint {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.script-panel pre {
+  margin: 0;
+  padding: 0.9rem;
+  background: #0a0a0a;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.script-panel code {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  white-space: pre;
+  color: oklch(88% 0.02 70);
+}
+
+.script-panel .empty {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  padding: 1rem 0.2rem;
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .script-panel {
+    position: static;
+    max-height: 400px;
+  }
+}

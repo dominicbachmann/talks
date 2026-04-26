@@ -1,0 +1,4 @@
+:host {
+  display: block;
+  --section: var(--tool-calling);
+}

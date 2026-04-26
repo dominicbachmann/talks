@@ -1,0 +1,10 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.reveal-viewport {
+  background-color: rgb(17, 17, 17) !important;
+}

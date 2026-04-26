@@ -1,0 +1,85 @@
+<div class="page">
+  <div class="chat-shell js-runtime">
+    <header class="chat-header">
+      <span class="chat-eyebrow">08 · JavaScript Runtime</span>
+      <h1 class="chat-title">Let the model write code</h1>
+      <p class="chat-sub">
+        One tool — <code>javascript</code> — and three runtime functions.
+        Ask anything analytical; the model authors a full script that
+        runs sandboxed in QuickJS next to the app.
+      </p>
+    </header>
+
+    <div class="suggestions">
+      @for (s of suggestions; track s) {
+        <button class="suggestion" type="button" (click)="suggest(s)">{{ s }}</button>
+      }
+    </div>
+
+    <div class="chat-log">
+      @for (m of messages(); track $index) {
+        @switch (m.role) {
+          @case ('user') {
+            <div class="message user">
+              <span class="role">You</span>
+              <span>{{ m.content }}</span>
+            </div>
+          }
+          @case ('assistant') {
+            <div class="message assistant">
+              <span class="role">Reel</span>
+              @if (m.toolCalls && m.toolCalls.length > 0) {
+                <div class="tool-calls">
+                  @for (tc of m.toolCalls; track tc.toolCallId) {
+                    <span class="tool-pill" [class.pending]="tc.status === 'pending'">
+                      <span class="tool-name">{{ tc.name }}</span>
+                    </span>
+                  }
+                </div>
+              }
+              @if (m.content) {
+                <span>{{ m.content }}</span>
+              }
+            </div>
+          }
+          @case ('error') {
+            <div class="message error">
+              <span class="role">Error</span>
+              <span>{{ m.content }}</span>
+            </div>
+          }
+        }
+      }
+      @if (status()) {
+        <div class="status">{{ status() }}</div>
+      }
+    </div>
+
+    <form class="composer" (submit)="$event.preventDefault(); send()">
+      <input
+        type="text"
+        [value]="draft()"
+        (input)="draft.set($any($event.target).value)"
+        name="draft"
+        placeholder="Ask something analytical…"
+        autocomplete="off"
+      />
+      <button type="submit" [disabled]="!draft().trim()">Send</button>
+    </form>
+  </div>
+
+  <aside class="script-panel">
+    <header>
+      <span class="panel-eyebrow">Last script</span>
+      <span class="panel-hint">Authored by the model</span>
+    </header>
+    @if (lastScript()) {
+      <pre><code>{{ lastScript() }}</code></pre>
+    } @else {
+      <div class="empty">
+        No script yet — ask an analytical question and the model will
+        author JavaScript here.
+      </div>
+    }
+  </aside>
+</div>
