@@ -9,4 +9,5 @@ Slide decks for talks by Dominic Bachmann.
 - What's New in JavaScript & CSS (2026)
 - Signal forms (2026)
 - Hashbrown (2026)
+- Angular Typed Router (2026)
 
