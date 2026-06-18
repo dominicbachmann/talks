@@ -3,7 +3,7 @@
 Introducing compile time safety for your Angular routes.
 
 To view the slides, download the GitHub repo, install the dependencies, run the dev script and open your browser to http://localhost:5173
-
+Example using pnpm
 ```bash
 git clone https://github.com/dominicbachmann/talks.git
 cd talks/2026-angular-typed-router/slides
