@@ -2,8 +2,6 @@
 
 Introducing compile time safety for your Angular routes.
 
-A talk held by Dominc Bachmann on 17 June 2026 at Angular Zürich Meetup
-
 To view the slides, download the GitHub repo, run pnpm dev and open your browser to http://localhost:5173
 
 ```bash
